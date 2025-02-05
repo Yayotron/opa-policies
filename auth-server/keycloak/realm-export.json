@@ -1,0 +1,184 @@
+{
+  "realm": "FoodSecurityRealm",
+  "enabled": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "omnivorous"
+      },
+      {
+        "name": "vegetarian"
+      },
+      {
+        "name": "vegan"
+      },
+      {
+        "name": "pescatarian"
+      },
+      {
+        "name": "fruitarian"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "client_omnivorous_user1",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "omnivorous"
+      ]
+    },
+    {
+      "clientId": "client_vegetarian_user1",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "vegetarian"
+      ]
+    },
+    {
+      "clientId": "client_vegan_user1",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "vegan"
+      ]
+    },
+    {
+      "clientId": "client_pescatarian_user1",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "pescatarian"
+      ]
+    },
+    {
+      "clientId": "client_fruitarian_user1",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "fruitarian"
+      ]
+    },
+    {
+      "clientId": "client_omnivorous_vegetarian_user1",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "omnivorous",
+        "vegetarian"
+      ]
+    },
+    {
+      "clientId": "client_omnivorous_vegan_user1",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "omnivorous",
+        "vegan"
+      ]
+    },
+    {
+      "clientId": "client_vegetarian_vegan_user1",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "vegetarian",
+        "vegan"
+      ]
+    },
+    {
+      "clientId": "client_omnivorous_vegetarian_vegan_user1",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "omnivorous",
+        "vegetarian",
+        "vegan"
+      ]
+    },
+    {
+      "clientId": "client_omnivorous_user2",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "omnivorous"
+      ]
+    },
+    {
+      "clientId": "client_vegetarian_user2",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "vegetarian"
+      ]
+    },
+    {
+      "clientId": "client_vegan_user2",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "vegan"
+      ]
+    },
+    {
+      "clientId": "client_pescatarian_user2",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "pescatarian"
+      ]
+    },
+    {
+      "clientId": "client_fruitarian_user2",
+      "enabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "fullScopeAllowed": false,
+      "secret": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+      "defaultRoles": [
+        "fruitarian"
+      ]
+    }
+  ]
+}

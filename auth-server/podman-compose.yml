@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.1
+    container_name: keycloak
+    command:
+      - "start-dev"
+      - "--http-port=7070"
+      - "--import-realm"
+    ports:
+      - "7070:7070"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_BOOTSTRAP_HTTP_PORT: 7070
+    volumes:
+      - keycloak_data:/opt/keycloak/data/
+      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+
+  opa:
+    image: openpolicyagent/opa:0.69.0
+    container_name: opa
+    command:
+      - "run"
+      - "--server"
+    ports:
+      - "8181:8181"
+    volumes:
+      - ./policies:/policies
+
+volumes:
+  keycloak_data:
