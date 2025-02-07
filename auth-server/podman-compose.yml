@@ -15,7 +15,7 @@ services:
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KC_BOOTSTRAP_HTTP_PORT: 7070
     volumes:
-      - keycloak_data:/opt/keycloak/data/
+#      - keycloak_data:/opt/keycloak/data/
       - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
 
   opa:

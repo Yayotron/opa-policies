@@ -69,7 +69,25 @@ src/
    cd auth-server
    podman-compose up
    ```
-3. **Run the tests:**
+
+(Optional): to add, change or remove users and/or roles you can edit
+file [realm-export](auth-server/keycloak/realm-export.json),
+then restart keycloak container.
+
+```sh
+   podman-compose restart keycloak
+```
+
+It's also possible to use a volume to have the settings in keycloak, and then maintain
+the roles and users somewhere else as it would happen in a real environment.
+
+3. Upload the policy to OPA:
+
+   ```sh
+   curl -X PUT --data-binary ./src/main/policies/combined.rego http://localhost:8181/v1/policies/combined
+   ```
+
+4. **Run the tests:**
 
    ```sh
    mvn test
@@ -82,6 +100,11 @@ The application exposes several endpoints under `/food` that are protected by OP
 - `GET /food/onion` - Accessible by roles: vegan, vegetarian, omnivorous
 - `GET /food/milk` - Accessible by roles: vegetarian, omnivorous
 - `GET /food/beef` - Accessible by role: omnivorous
+
+The application exposes two endpoints under `/management` that are protected by OPA policies.
+
+- `GET /management/health` - Accessible by roles: operator
+- `GET /management/info` - Accessible by roles: operator
 
 ## Testing
 

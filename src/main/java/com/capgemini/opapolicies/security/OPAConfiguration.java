@@ -15,9 +15,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class OPAConfiguration {
 
     private final String opaUrl;
+    private final String[] policyPaths;
 
-    public OPAConfiguration(@Value("${opa.url}") String opaUrl) {
+    public OPAConfiguration(@Value("${opa.url}") String opaUrl,
+                            @Value("${opa.policies}") String[] policyPaths) {
         this.opaUrl = opaUrl;
+        this.policyPaths = policyPaths;
     }
 
 
@@ -27,7 +30,7 @@ public class OPAConfiguration {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakJwtRolesConverter());
 
-        http.authorizeHttpRequests(authorize -> authorize.anyRequest().access(new OPAAuthorizationManager(opaClient())))
+        http.authorizeHttpRequests(authorize -> authorize.anyRequest().access(new OPAAuthorizationManager(opaClient(), policyPaths)))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)));
 
         return http.build();
