@@ -32,3 +32,10 @@ allow if {
     some i
     input.subject.authorities[i] in ["ROLE_omnivorous", "ROLE_vegetarian"]
 }
+
+allow if {
+    input.path == "/food/salmon"
+    input.action.name == "GET"
+    some i
+    input.subject.authorities[i] in ["ROLE_omnivorous", "ROLE_pescatarian"]
+}
