@@ -26,8 +26,6 @@ services:
       - "--server"
     ports:
       - "8181:8181"
-    volumes:
-      - ./policies:/policies
 
 volumes:
   keycloak_data:

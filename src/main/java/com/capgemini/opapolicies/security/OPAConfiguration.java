@@ -16,7 +16,7 @@ public class OPAConfiguration {
 
     private final String opaUrl;
 
-    public OPAConfiguration(@Value("opa.url") String opaUrl) {
+    public OPAConfiguration(@Value("${opa.url}") String opaUrl) {
         this.opaUrl = opaUrl;
     }
 
