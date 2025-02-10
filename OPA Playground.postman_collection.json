@@ -1,0 +1,316 @@
+{
+  "info": {
+    "_postman_id": "f4d10941-f532-4e3a-b473-893eb51ff5c2",
+    "name": "OPA Playground",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "39229389"
+  },
+  "item": [
+    {
+      "name": "Obtain Omnivorous JWT Token",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "user-agent": true,
+          "connection": true,
+          "accept-encoding": true
+        }
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "default"
+            },
+            {
+              "key": "client_id",
+              "value": "client_omnivorous_user1",
+              "type": "default"
+            },
+            {
+              "key": "client_secret",
+              "value": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+              "type": "default"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:7070/realms/FoodSecurityRealm/protocol/openid-connect/token",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "7070",
+          "path": [
+            "realms",
+            "FoodSecurityRealm",
+            "protocol",
+            "openid-connect",
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtain Vegan JWT Token Copy",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "default"
+            },
+            {
+              "key": "client_id",
+              "value": "rabbit_client",
+              "type": "default"
+            },
+            {
+              "key": "client_secret",
+              "value": "Et40F9LFZbgtdg8zNPCVLyR0ZLUjr2Sx",
+              "type": "default"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:7070/realms/FoodSecurityRealm/protocol/openid-connect/token",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "7070",
+          "path": [
+            "realms",
+            "FoodSecurityRealm",
+            "protocol",
+            "openid-connect",
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET Milk",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJVUkRVeWxsYkFNWTRMMk1Ea2puNFk0cVJ2T0VVZ1ladnVUUDQzb21GcFVBIn0.eyJleHAiOjE3MzAxOTY5MDQsImlhdCI6MTczMDE5NjYwNCwianRpIjoiM2I3YjE0YjQtM2MzOC00YTNhLWI5ZmYtMjc4YjFkNTQwMWMzIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3MDcwL3JlYWxtcy9CTlBQX1JlYWxtIiwic3ViIjoiMTBhYTJkNjEtOWM0Zi00Mjg3LWI4NmItNTg1NTQ3NDU3NzE0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicmFiYml0X2NsaWVudCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInZlZ2FuIl19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJjbGllbnRIb3N0IjoiMTAuODkuMS41IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtcmFiYml0X2NsaWVudCIsImNsaWVudEFkZHJlc3MiOiIxMC44OS4xLjUiLCJjbGllbnRfaWQiOiJyYWJiaXRfY2xpZW50In0.DyXvNOWFugT4kb2GB5iOOEuTTHHcP6Bgvo3djdAmK4hDUo0oHyIzX3zDrQkVMkHkh0z1aiMh6NX4d5yeWcZ33bGrVdQUIyQV4VBG2oSojvIcmsf-lFiONU4TVWxpuh0ntHWkeC4H67uObD8Tq6Co96ZinJYMXdHEyc-0DfokM0vmIKhJ9OzuFBMOTpTTBUySYN7pleH3YO8EhZlvh14AWtYeCx-vfpuJ8lo9T9e1kmGK-mW86sWvCQCBfrvTu83I_MisKNFHsyXXxDIsmzwSs_RrkHmM0pNg2oIpNkTJaVhfyIvXvoyQj3StXHQdqDJbSt3m_-TlqlMxB38mAss1cQ",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/food/milk",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "food",
+            "milk"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET Onion",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJVUkRVeWxsYkFNWTRMMk1Ea2puNFk0cVJ2T0VVZ1ladnVUUDQzb21GcFVBIn0.eyJleHAiOjE3MzAxOTUwOTIsImlhdCI6MTczMDE5NDc5MiwianRpIjoiYmY5NDkyMGEtZmI1MS00MTg1LWIzZmEtYzY4NGVhNjQyNzlhIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3MDcwL3JlYWxtcy9CTlBQX1JlYWxtIiwic3ViIjoiMTBhYTJkNjEtOWM0Zi00Mjg3LWI4NmItNTg1NTQ3NDU3NzE0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicmFiYml0X2NsaWVudCIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInZlZ2FuIl19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJjbGllbnRIb3N0IjoiMTAuODkuMS41IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtcmFiYml0X2NsaWVudCIsImNsaWVudEFkZHJlc3MiOiIxMC44OS4xLjUiLCJjbGllbnRfaWQiOiJyYWJiaXRfY2xpZW50In0.KvyPR5TF_VIUwzTLULuB73albXBHEHLqEDcbsPGshPiltyGf1Rp-aXq4btayflAVY-JCovg-EY23f_Uqxxhav_4j6S36sEuwPl1N31_AiJE__TXhgGGCLnAQTeLOkET_a38bNyCvJ7tIvjGQsJsimwUZ5EFinpgsgwAON-mHaZK0XdjTLib_cyy9kLLKHTMeHqlormXDSgG7pImvnmG7q9WdD4lyxIHvrlYBYWfucCVnEIzBrHzQF-ZC2HKXrqal460Jbd-qhNLlXr0Xbouast5jbmfbJg5Tl6d3enPdSCw-PkrV2wRzJSBLvYXa4JgA2LOgqO4s6TfJQIrsk_93HQ",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/food/onion",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "food",
+            "onion"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET Beef",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJVUkRVeWxsYkFNWTRMMk1Ea2puNFk0cVJ2T0VVZ1ladnVUUDQzb21GcFVBIn0.eyJleHAiOjE3MzAxOTQ5MzksImlhdCI6MTczMDE5NDYzOSwianRpIjoiZGYyN2NiMTQtOGMzNy00YmUwLWJkY2QtMmQ2ZDVkMDdkYmNjIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3MDcwL3JlYWxtcy9CTlBQX1JlYWxtIiwic3ViIjoiYzk2YmFkNDMtMmUzNy00MTYwLTg5ZTEtOGQ0OGY0MzU0OTg1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaHVtYW5fY2xpZW50IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib21uaXZvcm91cyJdfSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiY2xpZW50SG9zdCI6IjEwLjg5LjEuNSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LWh1bWFuX2NsaWVudCIsImNsaWVudEFkZHJlc3MiOiIxMC44OS4xLjUiLCJjbGllbnRfaWQiOiJodW1hbl9jbGllbnQifQ.QhE2a3mBNiJDjjd10-J6PcWMnnmM7QszPYUdcYG7VtxtM9bW6gZmZ-hvR9hmpP4qYQh5EWfCXF_umMbiSkK9drpmSX7X52dAEFaKkkPpwi7MkU63_oaoOiXJqJ9VPQKYpqP7Y-VyGNLhC9sBhm3FOUsOpeFmWwBA_CkpAqD65LHo3hkvTt_PFvUib8Ll6l8iNhggwnuVX2Z0HZMAgbNy4osYqg0_mZQoTkPCxMD_CQFVW5a8IBY-J97V2q2uWw5irtf2lg9PLXn-RYHCW_UeSq5vIzHDyAhGW1hEBZU9A-t5plXaHt4NrEiBv-HZ77BM8QBjuHJ3vLLhJa1eDwogig",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/food/beef",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "food",
+            "beef"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET OPA Policy",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8181/v1/policies/food_security",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8181",
+          "path": [
+            "v1",
+            "policies",
+            "food_security"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Evaluate request in OPA",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"input\": {\r\n        \"path\": \"/food/salmon\",\r\n        \"subject\": {\r\n            \"authorities\": [\r\n                \"ROLE_uma_protection\",\r\n                \"ROLE_pescatarian\"\r\n            ],\r\n            \"id\": \"client_pescatarian_user1\"\r\n        },\r\n        \"context\": {\r\n            \"port\": 80,\r\n            \"type\": \"http\",\r\n            \"ip\": \"127.0.0.1\",\r\n            \"host\": \"localhost\"\r\n        },\r\n        \"action\": {\r\n            \"name\": \"GET\",\r\n            \"protocol\": \"HTTP/1.1\"\r\n        }\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8181/v1/data/food_security",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8181",
+          "path": [
+            "v1",
+            "data",
+            "food_security"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET management",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzTnBVUnN2amNiX0pSODdYSmFVdGJvSldJY1pxN1MzTFNTTDNjMnJtd2lRIn0.eyJleHAiOjE3Mzg5Mjg5MjQsImlhdCI6MTczODkyODYyNCwianRpIjoiNjY0MTYyNWUtYjBhMS00ZWM5LWI5ZWItMmIyZDA5Mjc0YTU4IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo3MDcwL3JlYWxtcy9Gb29kU2VjdXJpdHlSZWFsbSIsInN1YiI6ImFkODJkOWE4LTIzZWQtNDdiZi05YmI1LTJjMjRlMWY4ZTNiZiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNsaWVudF9vbW5pdm9yb3VzX3VzZXIxIiwiYWNyIjoiMSIsInJlc291cmNlX2FjY2VzcyI6eyJjbGllbnRfb21uaXZvcm91c191c2VyMSI6eyJyb2xlcyI6WyJvbW5pdm9yb3VzIiwidW1hX3Byb3RlY3Rpb24iXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudEhvc3QiOiIxMC44OS4xLjIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtY2xpZW50X29tbml2b3JvdXNfdXNlcjEiLCJjbGllbnRBZGRyZXNzIjoiMTAuODkuMS4yIiwiY2xpZW50X2lkIjoiY2xpZW50X29tbml2b3JvdXNfdXNlcjEifQ.bkk2MNsBEHcUvKi_9IwTRcEZhR-zidknM_o3w2e-2QaFMH28QFL_Ct-9fQSUVANICWvOKur_kX2dZKhg8iHdT2VJZyYsERCAfEPiE_gHiJk332GYNbArq66u9FtSsoxFmJV66DoHXpc6ahwDzYUTWHg9L0PoKG4KSDlZLy9AHNs73zyE48RfOV4IbAVNE7oDGibgzli4FZJYlYNMXkyHSW1eJyaeabWOLwTc39kdtThs1psI9woRLpDgf1VEEXaSnmaOZuPJYrEQkdY09GLc479Z_8AlSJnkIYfOTZocKR65rwFxB23OfyGRTJswFGMQyxf5IBHYDugLqAmJUkIZ2g",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/management/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "management",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT OPA Policy",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "package combined\r\n\r\nimport data.food_security.allow as food_allow\r\nimport data.management.allow as management_allow\r\n\r\ndefault allow = false\r\n\r\nallow {\r\n    food_allow\r\n}\r\n\r\nallow {\r\n    management_allow\r\n}",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8181/v1/policies/combined",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8181",
+          "path": [
+            "v1",
+            "policies",
+            "combined"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
