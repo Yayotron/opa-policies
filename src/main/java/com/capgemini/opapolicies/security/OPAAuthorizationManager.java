@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +37,7 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
                 .map(policyPath -> makeOpaRequest(authentication, context, policyPath))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
+                .peek(response -> logger.debug("OPA Decision: {}", response.getDecision()))
                 .anyMatch(OPAResponse::isAllow);
         return new AuthorizationDecision(decision);
     }
@@ -77,10 +79,25 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
 
     private Map<String, Object> createSubject(Authentication authentication) {
         JwtAuthenticationToken jwt = (JwtAuthenticationToken) authentication;
-        return Map.of(
-                "id", jwt.getToken().getClaim("client_id"),
-                "authorities", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet())
-        );
+        String name = getStringClaim(jwt, "preferred_username", "sub", "client_id");
+
+        Map<String, Object> subject = new HashMap<>();
+        subject.put("id", jwt.getToken().getClaim("client_id"));
+        subject.put("name", name == null ? "" : name);
+        subject.put("authorities", authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet()));
+        return subject;
+    }
+
+    private static String getStringClaim(JwtAuthenticationToken jwt, String... claimNames) {
+        for (String claimName : claimNames) {
+            Object value = jwt.getToken().getClaims().get(claimName);
+            if (value instanceof String && !((String) value).isBlank()) {
+                return (String) value;
+            }
+        }
+        return null;
     }
 
     private Map<String, Object> createContext(HttpServletRequest request) {
@@ -88,7 +105,8 @@ public class OPAAuthorizationManager implements AuthorizationManager<RequestAuth
                 "type", "http",
                 "host", request.getRemoteHost(),
                 "ip", request.getRemoteAddr(),
-                "port", request.getRemotePort()
+                "port", request.getRemotePort(),
+                "currentHour", LocalTime.now().getHour()
         );
     }
 }
