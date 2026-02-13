@@ -333,11 +333,6 @@ curl -X POST http://localhost:8181/v1/data/recipe_security/allow \
   }'
 ```
 
-## Documentation
-
-- **[EXPANSION_DESIGN.md](EXPANSION_DESIGN.md)**: Detailed design document for new features
-- **[EXPANDED_FEATURES.md](EXPANDED_FEATURES.md)**: Comprehensive feature documentation and learning guide
-
 ## Learning Path
 
 1. **Start Simple**: Review original food endpoints and policies
@@ -373,6 +368,7 @@ POST /meal-plans/user1?date=2024-01-15&meal-type=BREAKFAST&recipe-id={id}&servin
 
 # User tries to create meal plan at 2 AM (denied)
 POST /meal-plans/user1?date=2024-01-15&meal-type=SNACK&recipe-id={id}
+# Result: 403 Forbidden (outside planning hours)
 # Result: 403 Forbidden (outside planning hours)
 ```
 
