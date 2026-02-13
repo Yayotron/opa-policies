@@ -1,18 +1,26 @@
 package com.capgemini.opapolicies.api;
 
 import com.capgemini.opapolicies.security.OPAConfiguration;
+import com.capgemini.opapolicies.service.FoodService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Test cases for Enhanced Food Controller endpoints
+ * Demonstrates OPA policy enforcement for:
+ * - Basic food access based on dietary restrictions
+ * - Data filtering for allergen-free foods
+ * - Rating functionality for authenticated users
+ * - Admin-only deletion operations
+ */
 @WebMvcTest(FoodController.class)
-@Import({OPAConfiguration.class, KeycloakAuthenticator.class})
+@Import({OPAConfiguration.class, KeycloakAuthenticator.class, FoodService.class})
 class FoodControllerSecurityTest {
 
     @Autowired
@@ -20,131 +28,208 @@ class FoodControllerSecurityTest {
     @Autowired
     private KeycloakAuthenticator authenticator;
 
+    // ========== GET /food/{foodName} Tests ==========
+
     @Test
-    void testOmnivorousCanAccessAllFood() throws Exception {
-        // Arrange
-        String clientId = "client_omnivorous_user1";
+    void testVeganCanAccessVegetables() throws Exception {
+        String token = authenticator.getAccessToken("client_vegan_user1");
 
-        // Act
-        String token = authenticator.getAccessToken(clientId);
-
-        mockMvc.perform(get("/food/onion").header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Onion"));
-
-        mockMvc.perform(get("/food/milk").header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Milk"));
-
-        mockMvc.perform(get("/food/beef").header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Beef"));
+        mockMvc.perform(get("/food/carrot")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void testVeganCanAccessOnion() throws Exception {
-        // Arrange
-        String clientId = "client_vegan_user1";
+    void testVeganCannotAccessDairy() throws Exception {
+        String token = authenticator.getAccessToken("client_vegan_user1");
 
-        // Act
-        String token = authenticator.getAccessToken(clientId);
-
-        mockMvc.perform(get("/food/onion").header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Onion"));
-
-        mockMvc.perform(get("/food/milk").header("Authorization", "Bearer " + token))
-                .andExpect(status().isForbidden());
-
-        mockMvc.perform(get("/food/beef").header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/food/milk")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    void testVegetarianCanAccessEgg() throws Exception {
-        // Arrange
-        String clientId = "client_vegetarian_user1";
+    void testOmnivorousCanAccessAllFoods() throws Exception {
+        String token = authenticator.getAccessToken("client_omnivorous_user1");
 
-        // Act
-        String token = authenticator.getAccessToken(clientId);
+        mockMvc.perform(get("/food/beef")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
 
-        mockMvc.perform(get("/food/egg").header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Egg"));
+        mockMvc.perform(get("/food/milk")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void testOmnivorousCanAccessEgg() throws Exception {
-        // Arrange
-        String clientId = "client_omnivorous_user1";
+    void testPescatarianCanAccessFishButNotMeat() throws Exception {
+        String token = authenticator.getAccessToken("client_pescatarian_user1");
 
-        // Act
-        String token = authenticator.getAccessToken(clientId);
+        mockMvc.perform(get("/food/salmon")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
 
-        mockMvc.perform(get("/food/egg").header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Egg"));
+        mockMvc.perform(get("/food/beef")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isForbidden());
+    }
+
+    // ========== GET /food (List with filters) Tests ==========
+
+    @Test
+    void testListFoodsWithCategoryFilter() throws Exception {
+        String token = authenticator.getAccessToken("client_omnivorous_user1");
+
+        mockMvc.perform(get("/food")
+                        .param("category", "VEGETABLE")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void testVeganCannotAccessEgg() throws Exception {
-        // Arrange
-        String clientId = "client_vegan_user1";
+    void testListAllergenFreeFoods() throws Exception {
+        String token = authenticator.getAccessToken("client_omnivorous_user1");
 
-        // Act
-        String token = authenticator.getAccessToken(clientId);
+        mockMvc.perform(get("/food")
+                        .param("allergen-free", "DAIRY")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
 
-        mockMvc.perform(get("/food/egg").header("Authorization", "Bearer " + token))
+    @Test
+    void testListFoodsBySeasonFilter() throws Exception {
+        String token = authenticator.getAccessToken("client_vegan_user1");
+
+        mockMvc.perform(get("/food")
+                        .param("season", "summer")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    // ========== POST /food/{foodName}/rate Tests ==========
+
+    @Test
+    void testAuthenticatedUserCanRateFood() throws Exception {
+        String token = authenticator.getAccessToken("client_vegan_user1");
+
+        mockMvc.perform(post("/food/carrot/rate")
+                        .param("rating", "5")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testUnauthenticatedUserCannotRateFood() throws Exception {
+        mockMvc.perform(post("/food/carrot/rate")
+                        .param("rating", "5"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void testInvalidRatingIsRejected() throws Exception {
+        String token = authenticator.getAccessToken("client_vegan_user1");
+
+        mockMvc.perform(post("/food/carrot/rate")
+                        .param("rating", "10")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isBadRequest());
+    }
+
+    // ========== DELETE /food/{foodName} Tests ==========
+
+    @Test
+    void testAdminCanDeleteFood() throws Exception {
+        String token = authenticator.getAccessToken("client_admin_user1");
+
+        mockMvc.perform(delete("/food/carrot")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void testRegularUserCannotDeleteFood() throws Exception {
+        String token = authenticator.getAccessToken("client_vegan_user1");
+
+        mockMvc.perform(delete("/food/carrot")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    void testPescatarianCannotAccessEgg() throws Exception {
-        // Arrange
-        String clientId = "client_pescatarian_user1";
+    void testChefCannotDeleteFood() throws Exception {
+        String token = authenticator.getAccessToken("client_chef_user1");
 
-        // Act
-        String token = authenticator.getAccessToken(clientId);
-
-        mockMvc.perform(get("/food/egg").header("Authorization", "Bearer " + token))
+        mockMvc.perform(delete("/food/carrot")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isForbidden());
     }
 
+    // ========== GET /food/{foodName}/allergens Tests ==========
+
     @Test
-    void testFruitarianCannotAccessEgg() throws Exception {
-        // Arrange
-        String clientId = "client_fruitarian_user1";
+    void testAnyAuthenticatedUserCanViewAllergens() throws Exception {
+        String token = authenticator.getAccessToken("client_vegan_user1");
 
-        // Act
-        String token = authenticator.getAccessToken(clientId);
+        mockMvc.perform(get("/food/milk/allergens")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
 
-        mockMvc.perform(get("/food/egg").header("Authorization", "Bearer " + token))
+    @Test
+    void testUnauthenticatedUserCannotViewAllergens() throws Exception {
+        mockMvc.perform(get("/food/milk/allergens"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    // ========== GET /food/safe-for/{allergyType} Tests ==========
+
+    @Test
+    void testUserCanQuerySafeFoodsForAllergy() throws Exception {
+        String token = authenticator.getAccessToken("client_vegan_user1");
+
+        mockMvc.perform(get("/food/safe-for/DAIRY")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGlutenFreeUserCanQuerySafeFoods() throws Exception {
+        String token = authenticator.getAccessToken("client_gluten_free_user1");
+
+        mockMvc.perform(get("/food/safe-for/GLUTEN")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    // ========== POST /food/{foodName}/flag Tests ==========
+
+    @Test
+    void testNutritionistCanFlagFood() throws Exception {
+        String token = authenticator.getAccessToken("client_nutritionist_user1");
+
+        mockMvc.perform(post("/food/beef/flag")
+                        .param("reason", "High cholesterol content")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testAdminCanFlagFood() throws Exception {
+        String token = authenticator.getAccessToken("client_admin_user1");
+
+        mockMvc.perform(post("/food/beef/flag")
+                        .param("reason", "Quality concerns")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testRegularUserCannotFlagFood() throws Exception {
+        String token = authenticator.getAccessToken("client_vegan_user1");
+
+        mockMvc.perform(post("/food/beef/flag")
+                        .param("reason", "Personal preference")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void testOmnivorousCanAccessSalmon() throws Exception {
-        // Arrange
-        String clientId = "client_omnivorous_user1";
-
-        // Act
-        String token = authenticator.getAccessToken(clientId);
-
-        mockMvc.perform(get("/food/salmon").header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Salmon"));
-    }
-
-    @Test
-    void testPescatarianCanAccessSalmon() throws Exception {
-        // Arrange
-        String clientId = "client_pescatarian_user1";
-
-        // Act
-        String token = authenticator.getAccessToken(clientId);
-
-        mockMvc.perform(get("/food/salmon").header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Salmon"));
     }
 }

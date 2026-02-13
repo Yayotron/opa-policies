@@ -58,14 +58,14 @@ is_before_meal_time if {
 
 allow if {
     startswith(input.path, "/meal-plans/")
-    not contains(input.path, "/meal-plans/") or count(split(input.path, "/")) == 3
+    count(split(input.path, "/")) == 3
     input.action.name == "GET"
     is_own_meal_plan
 }
 
 allow if {
     startswith(input.path, "/meal-plans/")
-    not contains(input.path, "/meal-plans/") or count(split(input.path, "/")) == 3
+    count(split(input.path, "/")) == 3
     input.action.name == "GET"
     has_any_role(["nutritionist", "admin"])
 }

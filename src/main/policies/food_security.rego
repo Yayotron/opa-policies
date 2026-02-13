@@ -1,4 +1,4 @@
-package food_enhanced_security
+package food_security
 
 import rego.v1
 
